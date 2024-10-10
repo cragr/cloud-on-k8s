@@ -1,3 +1,12 @@
+apiVersion: project.openshift.io/v1
+kind: ProjectRequest
+metadata:
+  name: elastic
+displayName: "elastic"
+description: "This project contains elastic components."  # Optional description
+annotations:
+  openshift.io/display-name: "elastic"  # Annotation for display name
+---
 apiVersion: beat.k8s.elastic.co/v1beta1
 kind: Beat
 metadata:
@@ -200,7 +209,7 @@ apiVersion: v1
 kind: ServiceAccount
 metadata:
   name: metricbeat
-  namespace: default
+  namespace: elastic
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
@@ -209,7 +218,7 @@ metadata:
 subjects:
 - kind: ServiceAccount
   name: metricbeat
-  namespace: default
+  namespace: elastic
 roleRef:
   kind: ClusterRole
   name: metricbeat
@@ -296,7 +305,7 @@ apiVersion: v1
 kind: ServiceAccount
 metadata:
   name: filebeat
-  namespace: default
+  namespace: elastic
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
@@ -305,7 +314,7 @@ metadata:
 subjects:
 - kind: ServiceAccount
   name: filebeat
-  namespace: default
+  namespace: elastic
 roleRef:
   kind: ClusterRole
   name: filebeat
@@ -319,7 +328,7 @@ spec:
   version: 8.15.0
   nodeSets:
   - name: default
-    count: 3
+    count: 1
     config:
       node.store.allow_mmap: false
 ---
